@@ -5,6 +5,7 @@ find_package(Boost REQUIRED)
 
 add_executable(viewer_tests
     test_main.cpp
+    open_model_test.cpp
 )
 
 target_include_directories(viewer_tests PRIVATE ${Boost_INCLUDE_DIRS})
