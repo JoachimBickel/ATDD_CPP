@@ -9,5 +9,6 @@ add_executable(viewer_tests
 )
 
 target_include_directories(viewer_tests PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(viewer_tests PRIVATE viewer_core)
 
 add_test(NAME viewer_tests COMMAND viewer_tests)
