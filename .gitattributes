@@ -1,0 +1,56 @@
+# Normalize line endings.
+#
+# All text files are stored with LF in the repository AND checked out with LF on
+# every platform (text=auto eol=lf). Windows and Linux working copies are then
+# byte-for-byte identical, with no per-machine git configuration and no CRLF
+# warnings. Files that genuinely require a different ending are overridden below.
+* text=auto eol=lf
+
+# --- Files that REQUIRE a specific line ending on every platform ---
+
+# Unix shell scripts use LF (matches the default above; stated explicitly).
+*.sh    text eol=lf
+*.bash  text eol=lf
+*.zsh   text eol=lf
+
+# Windows batch scripts must use CRLF; cmd.exe mishandles LF (e.g. goto/labels).
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+
+# --- Explicit text types (documentation / clarity; LF inherited from the rule above) ---
+*.cpp   text
+*.cxx   text
+*.cc    text
+*.h     text
+*.hpp   text
+*.hxx   text
+*.c     text
+*.cmake text
+*.txt   text
+*.md    text
+*.json  text
+*.yml   text
+*.yaml  text
+*.glsl  text
+*.vert  text
+*.frag  text
+
+# --- Binary files: never apply line-ending conversion ---
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.bmp   binary
+*.ico   binary
+*.tga   binary
+*.pdf   binary
+*.zip   binary
+*.gz    binary
+*.7z    binary
+
+# 3D assets that are binary formats (the viewer's models)
+*.glb   binary
+*.fbx   binary
+*.3ds   binary
+*.blend binary
+# Note: *.obj, *.gltf, *.ply, ASCII *.stl are text; left to the default rule above (LF).
