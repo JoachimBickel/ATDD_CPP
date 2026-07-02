@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <sstream>
 #include <string>
+#include <vector>
 
 #include <viewer/geometry/Vec3.h>
 
@@ -24,12 +25,19 @@ viewer::geometry::Mesh ObjImporter::parse(const std::string& text) const
             lineStream >> vertex.x >> vertex.y >> vertex.z;
             mesh.addVertex(vertex);
         } else if (kind == "f") {
-            std::size_t a = 0;
-            std::size_t b = 0;
-            std::size_t c = 0;
-            lineStream >> a >> b >> c;
-            // OBJ indices are 1-based; the mesh stores them 0-based.
-            mesh.addTriangle({a - 1, b - 1, c - 1});
+            std::vector<std::size_t> corners;
+            std::string token;
+            while (lineStream >> token) {
+                // A face vertex is "v", "v/vt", "v/vt/vn" or "v//vn"; keep only v.
+                const std::size_t slash = token.find('/');
+                const std::string vertexRef =
+                    (slash == std::string::npos) ? token : token.substr(0, slash);
+                // OBJ indices are 1-based; the mesh stores them 0-based.
+                corners.push_back(static_cast<std::size_t>(std::stoul(vertexRef)) - 1);
+            }
+            if (corners.size() >= 3) {
+                mesh.addTriangle({corners[0], corners[1], corners[2]});
+            }
         }
     }
 
