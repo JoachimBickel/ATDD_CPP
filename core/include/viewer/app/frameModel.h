@@ -13,9 +13,7 @@ inline viewer::ports::CameraState frameModel(const viewer::geometry::Mesh& mesh)
     const viewer::geometry::BoundingBox bounds = viewer::analysis::boundingBox(mesh);
 
     viewer::ports::CameraState camera;
-    camera.target.x = (bounds.min.x + bounds.max.x) / 2.0;
-    camera.target.y = (bounds.min.y + bounds.max.y) / 2.0;
-    camera.target.z = (bounds.min.z + bounds.max.z) / 2.0;
+    camera.target = bounds.center();
     return camera;
 }
 
