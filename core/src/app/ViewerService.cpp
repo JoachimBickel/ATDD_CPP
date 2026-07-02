@@ -3,6 +3,7 @@
 #include <string>
 
 #include <viewer/app/describeModel.h>
+#include <viewer/app/frameModel.h>
 #include <viewer/ports/ModelSource.h>
 #include <viewer/ports/View.h>
 
@@ -20,6 +21,7 @@ void ViewerService::openModel(const std::string& path)
 
     view_.showModel(model_);
     view_.showModelInfo(describeModel(model_));
+    view_.showCamera(frameModel(model_));
 }
 
 }  // namespace viewer::app
