@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include <viewer/analysis/BoundingBox.h>
 #include <viewer/ports/ModelInfo.h>
 #include <viewer/ports/ModelSource.h>
 #include <viewer/ports/View.h>
@@ -22,6 +23,7 @@ void ViewerService::openModel(const std::string& path)
     viewer::ports::ModelInfo info;
     info.vertexCount = model_.vertexCount();
     info.triangleCount = model_.triangleCount();
+    info.bounds = viewer::analysis::boundingBox(model_);
     view_.showModelInfo(info);
 }
 
