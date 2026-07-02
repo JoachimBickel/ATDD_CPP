@@ -84,4 +84,30 @@ BOOST_FIXTURE_TEST_CASE(opening_a_model_shows_its_bounding_box, OpenedTriangleMo
     BOOST_TEST(view.shownInfo.bounds.max.z == 0.0);
 }
 
+BOOST_AUTO_TEST_CASE(parses_real_world_obj_with_comments_blanks_and_slash_faces)
+{
+    FakeModelSource source{
+        "# exported by something\n"
+        "o triangle\n"
+        "\n"
+        "v 0 0 0\n"
+        "v 1 0 0\n"
+        "v 0 1 0\n"
+        "\n"
+        "# the face\n"
+        "f 1/1/1 2/2/2 3/3/3\n"};
+    FakeView view;
+    viewer::app::ViewerService service{source, view};
+
+    service.openModel("model.obj");
+
+    BOOST_TEST(view.shownMesh.vertexCount() == 3u);
+    BOOST_TEST(view.shownMesh.triangleCount() == 1u);
+
+    const auto& triangle = view.shownMesh.triangles().at(0);
+    BOOST_TEST(triangle.v0 == 0u);
+    BOOST_TEST(triangle.v1 == 1u);
+    BOOST_TEST(triangle.v2 == 2u);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
