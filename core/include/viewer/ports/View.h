@@ -1,6 +1,7 @@
 #pragma once
 
 #include <viewer/geometry/Mesh.h>
+#include <viewer/ports/CameraState.h>
 #include <viewer/ports/ModelInfo.h>
 
 namespace viewer::ports {
@@ -12,6 +13,7 @@ public:
     virtual ~View() = default;
     virtual void showModel(const viewer::geometry::Mesh& mesh) = 0;
     virtual void showModelInfo(const ModelInfo& info) = 0;
+    virtual void showCamera(const CameraState& camera) = 0;
 };
 
 }  // namespace viewer::ports
