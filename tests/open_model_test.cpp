@@ -5,6 +5,7 @@
 
 #include <viewer/app/ViewerService.h>
 #include <viewer/geometry/Mesh.h>
+#include <viewer/ports/CameraState.h>
 #include <viewer/ports/ModelInfo.h>
 #include <viewer/ports/ModelSource.h>
 #include <viewer/ports/View.h>
@@ -30,6 +31,9 @@ public:
     bool infoShown = false;
     viewer::ports::ModelInfo shownInfo;
 
+    bool cameraShown = false;
+    viewer::ports::CameraState shownCamera;
+
     void showModel(const viewer::geometry::Mesh& mesh) override
     {
         modelShown = true;
@@ -40,6 +44,12 @@ public:
     {
         infoShown = true;
         shownInfo = info;
+    }
+
+    void showCamera(const viewer::ports::CameraState& camera) override
+    {
+        cameraShown = true;
+        shownCamera = camera;
     }
 };
 
@@ -89,6 +99,14 @@ BOOST_FIXTURE_TEST_CASE(opening_a_model_shows_its_bounding_box, OpenedTriangleMo
     BOOST_TEST(view.shownInfo.bounds.max.x == 1.0);
     BOOST_TEST(view.shownInfo.bounds.max.y == 1.0);
     BOOST_TEST(view.shownInfo.bounds.max.z == 0.0);
+}
+
+BOOST_FIXTURE_TEST_CASE(opening_a_model_frames_it, OpenedTriangleModel)
+{
+    BOOST_TEST(view.cameraShown);
+    BOOST_TEST(view.shownCamera.target.x == 0.5);
+    BOOST_TEST(view.shownCamera.target.y == 0.5);
+    BOOST_TEST(view.shownCamera.target.z == 0.0);
 }
 
 BOOST_AUTO_TEST_CASE(parses_real_world_obj_with_comments_blanks_and_slash_faces)
