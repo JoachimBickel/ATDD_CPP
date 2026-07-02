@@ -74,4 +74,14 @@ BOOST_FIXTURE_TEST_CASE(opening_a_model_shows_its_info, OpenedTriangleModel)
     BOOST_TEST(view.shownInfo.triangleCount == 1u);
 }
 
+BOOST_FIXTURE_TEST_CASE(opening_a_model_shows_its_bounding_box, OpenedTriangleModel)
+{
+    BOOST_TEST(view.shownInfo.bounds.min.x == 0.0);
+    BOOST_TEST(view.shownInfo.bounds.min.y == 0.0);
+    BOOST_TEST(view.shownInfo.bounds.min.z == 0.0);
+    BOOST_TEST(view.shownInfo.bounds.max.x == 1.0);
+    BOOST_TEST(view.shownInfo.bounds.max.y == 1.0);
+    BOOST_TEST(view.shownInfo.bounds.max.z == 0.0);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
