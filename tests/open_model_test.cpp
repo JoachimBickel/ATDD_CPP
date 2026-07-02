@@ -43,12 +43,8 @@ public:
     }
 };
 
-}  // namespace
-
-BOOST_AUTO_TEST_SUITE(loading_models)
-
-BOOST_AUTO_TEST_CASE(opening_a_model_displays_it_in_the_view)
-{
+// Shared arrange + act: a service that has just opened a one-triangle model.
+struct OpenedTriangleModel {
     FakeModelSource source{
         "v 0 0 0\n"
         "v 1 0 0\n"
@@ -57,25 +53,22 @@ BOOST_AUTO_TEST_CASE(opening_a_model_displays_it_in_the_view)
     FakeView view;
     viewer::app::ViewerService service{source, view};
 
-    service.openModel("triangle.obj");
+    OpenedTriangleModel() { service.openModel("triangle.obj"); }
+};
 
+}  // namespace
+
+BOOST_AUTO_TEST_SUITE(loading_models)
+
+BOOST_FIXTURE_TEST_CASE(opening_a_model_displays_it_in_the_view, OpenedTriangleModel)
+{
     BOOST_TEST(view.modelShown);
     BOOST_TEST(view.shownMesh.vertexCount() == 3u);
     BOOST_TEST(view.shownMesh.triangleCount() == 1u);
 }
 
-BOOST_AUTO_TEST_CASE(opening_a_model_shows_its_info)
+BOOST_FIXTURE_TEST_CASE(opening_a_model_shows_its_info, OpenedTriangleModel)
 {
-    FakeModelSource source{
-        "v 0 0 0\n"
-        "v 1 0 0\n"
-        "v 0 1 0\n"
-        "f 1 2 3\n"};
-    FakeView view;
-    viewer::app::ViewerService service{source, view};
-
-    service.openModel("triangle.obj");
-
     BOOST_TEST(view.infoShown);
     BOOST_TEST(view.shownInfo.vertexCount == 3u);
     BOOST_TEST(view.shownInfo.triangleCount == 1u);
