@@ -2,6 +2,8 @@
 
 #include <cstddef>
 
+#include <viewer/geometry/BoundingBox.h>
+
 namespace viewer::ports {
 
 // View-facing summary of the loaded model, shown in the info panel. Part of the
@@ -9,6 +11,7 @@ namespace viewer::ports {
 struct ModelInfo {
     std::size_t vertexCount = 0;
     std::size_t triangleCount = 0;
+    viewer::geometry::BoundingBox bounds;
 };
 
 }  // namespace viewer::ports
