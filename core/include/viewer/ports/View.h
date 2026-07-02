@@ -1,6 +1,7 @@
 #pragma once
 
 #include <viewer/geometry/Mesh.h>
+#include <viewer/ports/ModelInfo.h>
 
 namespace viewer::ports {
 
@@ -10,6 +11,7 @@ class View {
 public:
     virtual ~View() = default;
     virtual void showModel(const viewer::geometry::Mesh& mesh) = 0;
+    virtual void showModelInfo(const ModelInfo& info) = 0;
 };
 
 }  // namespace viewer::ports
