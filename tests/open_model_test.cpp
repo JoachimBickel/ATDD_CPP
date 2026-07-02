@@ -43,17 +43,24 @@ public:
     }
 };
 
-// Shared arrange + act: a service that has just opened a one-triangle model.
+// Arrange + act: open a model from the given OBJ text, returning what the view
+// was shown. The single home for wiring the fakes to the service.
+FakeView openModelWith(std::string objText)
+{
+    FakeModelSource source{std::move(objText)};
+    FakeView view;
+    viewer::app::ViewerService service{source, view};
+    service.openModel("model.obj");
+    return view;
+}
+
+// The one-triangle model reused across the loading cases.
 struct OpenedTriangleModel {
-    FakeModelSource source{
+    FakeView view = openModelWith(
         "v 0 0 0\n"
         "v 1 0 0\n"
         "v 0 1 0\n"
-        "f 1 2 3\n"};
-    FakeView view;
-    viewer::app::ViewerService service{source, view};
-
-    OpenedTriangleModel() { service.openModel("triangle.obj"); }
+        "f 1 2 3\n");
 };
 
 }  // namespace
@@ -86,7 +93,7 @@ BOOST_FIXTURE_TEST_CASE(opening_a_model_shows_its_bounding_box, OpenedTriangleMo
 
 BOOST_AUTO_TEST_CASE(parses_real_world_obj_with_comments_blanks_and_slash_faces)
 {
-    FakeModelSource source{
+    const FakeView view = openModelWith(
         "# exported by something\n"
         "o triangle\n"
         "\n"
@@ -95,11 +102,7 @@ BOOST_AUTO_TEST_CASE(parses_real_world_obj_with_comments_blanks_and_slash_faces)
         "v 0 1 0\n"
         "\n"
         "# the face\n"
-        "f 1/1/1 2/2/2 3/3/3\n"};
-    FakeView view;
-    viewer::app::ViewerService service{source, view};
-
-    service.openModel("model.obj");
+        "f 1/1/1 2/2/2 3/3/3\n");
 
     BOOST_TEST(view.shownMesh.vertexCount() == 3u);
     BOOST_TEST(view.shownMesh.triangleCount() == 1u);
