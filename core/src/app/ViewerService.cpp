@@ -4,6 +4,7 @@
 
 #include <viewer/app/describeModel.h>
 #include <viewer/app/frameModel.h>
+#include <viewer/app/orbitCamera.h>
 #include <viewer/app/zoomCamera.h>
 #include <viewer/ports/ModelSource.h>
 #include <viewer/ports/View.h>
@@ -30,6 +31,12 @@ void ViewerService::openModel(const std::string& path)
 void ViewerService::zoom(double factor)
 {
     camera_ = zoomCamera(camera_, factor);
+    view_.showCamera(camera_);
+}
+
+void ViewerService::orbit(double yaw)
+{
+    camera_ = orbitCamera(camera_, yaw);
     view_.showCamera(camera_);
 }
 

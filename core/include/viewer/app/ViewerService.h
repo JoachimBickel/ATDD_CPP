@@ -22,6 +22,7 @@ public:
 
     void openModel(const std::string& path);
     void zoom(double factor);
+    void orbit(double yaw);
 
 private:
     viewer::ports::ModelSource& source_;
