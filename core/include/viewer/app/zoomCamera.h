@@ -1,5 +1,6 @@
 #pragma once
 
+#include <viewer/geometry/Vec3.h>
 #include <viewer/ports/CameraState.h>
 
 namespace viewer::app {
@@ -10,9 +11,7 @@ inline viewer::ports::CameraState zoomCamera(const viewer::ports::CameraState& c
                                              double factor)
 {
     viewer::ports::CameraState zoomed = camera;
-    zoomed.eye.x = camera.target.x + (camera.eye.x - camera.target.x) * factor;
-    zoomed.eye.y = camera.target.y + (camera.eye.y - camera.target.y) * factor;
-    zoomed.eye.z = camera.target.z + (camera.eye.z - camera.target.z) * factor;
+    zoomed.eye = camera.target + (camera.eye - camera.target) * factor;
     return zoomed;
 }
 
