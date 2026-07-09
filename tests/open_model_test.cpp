@@ -55,7 +55,7 @@ public:
 };
 
 // Arrange + act: open a model from the given OBJ text, returning what the view
-// was shown. The single home for wiring the fakes to the service.
+// was shown. For one-off content tests that only inspect the view.
 FakeView openModelWith(std::string objText)
 {
     FakeModelSource source{std::move(objText)};
@@ -65,13 +65,18 @@ FakeView openModelWith(std::string objText)
     return view;
 }
 
-// The one-triangle model reused across the loading cases.
+// The one-triangle model reused across the loading and interaction cases. Holds
+// the live service so tests can drive further commands (zoom/orbit).
 struct OpenedTriangleModel {
-    FakeView view = openModelWith(
+    FakeModelSource source{
         "v 0 0 0\n"
         "v 1 0 0\n"
         "v 0 1 0\n"
-        "f 1 2 3\n");
+        "f 1 2 3\n"};
+    FakeView view;
+    viewer::app::ViewerService service{source, view};
+
+    OpenedTriangleModel() { service.openModel("triangle.obj"); }
 };
 
 }  // namespace
@@ -121,17 +126,8 @@ BOOST_FIXTURE_TEST_CASE(framing_places_the_camera_back_from_the_target, OpenedTr
     BOOST_TEST(view.shownCamera.eye.z == std::sqrt(2.0), boost::test_tools::tolerance(1e-9));
 }
 
-BOOST_AUTO_TEST_CASE(zooming_in_moves_the_eye_toward_the_target)
+BOOST_FIXTURE_TEST_CASE(zooming_in_moves_the_eye_toward_the_target, OpenedTriangleModel)
 {
-    FakeModelSource source{
-        "v 0 0 0\n"
-        "v 1 0 0\n"
-        "v 0 1 0\n"
-        "f 1 2 3\n"};
-    FakeView view;
-    viewer::app::ViewerService service{source, view};
-    service.openModel("triangle.obj");
-
     service.zoom(0.5);
 
     // Framing put the eye at (0.5, 0.5, sqrt(2)) aimed at (0.5, 0.5, 0);
@@ -144,17 +140,8 @@ BOOST_AUTO_TEST_CASE(zooming_in_moves_the_eye_toward_the_target)
     BOOST_TEST(view.shownCamera.eye.z == std::sqrt(2.0) / 2.0, boost::test_tools::tolerance(1e-9));
 }
 
-BOOST_AUTO_TEST_CASE(orbiting_rotates_the_eye_around_the_target)
+BOOST_FIXTURE_TEST_CASE(orbiting_rotates_the_eye_around_the_target, OpenedTriangleModel)
 {
-    FakeModelSource source{
-        "v 0 0 0\n"
-        "v 1 0 0\n"
-        "v 0 1 0\n"
-        "f 1 2 3\n"};
-    FakeView view;
-    viewer::app::ViewerService service{source, view};
-    service.openModel("triangle.obj");
-
     const double quarterTurn = std::acos(-1.0) / 2.0;  // 90 degrees, in radians
     service.orbit(quarterTurn);
 
