@@ -121,6 +121,29 @@ BOOST_FIXTURE_TEST_CASE(framing_places_the_camera_back_from_the_target, OpenedTr
     BOOST_TEST(view.shownCamera.eye.z == std::sqrt(2.0), boost::test_tools::tolerance(1e-9));
 }
 
+BOOST_AUTO_TEST_CASE(zooming_in_moves_the_eye_toward_the_target)
+{
+    FakeModelSource source{
+        "v 0 0 0\n"
+        "v 1 0 0\n"
+        "v 0 1 0\n"
+        "f 1 2 3\n"};
+    FakeView view;
+    viewer::app::ViewerService service{source, view};
+    service.openModel("triangle.obj");
+
+    service.zoom(0.5);
+
+    // Framing put the eye at (0.5, 0.5, sqrt(2)) aimed at (0.5, 0.5, 0);
+    // zooming by 0.5 halves the eye->target distance, target unchanged.
+    BOOST_TEST(view.shownCamera.target.x == 0.5);
+    BOOST_TEST(view.shownCamera.target.y == 0.5);
+    BOOST_TEST(view.shownCamera.target.z == 0.0);
+    BOOST_TEST(view.shownCamera.eye.x == 0.5);
+    BOOST_TEST(view.shownCamera.eye.y == 0.5);
+    BOOST_TEST(view.shownCamera.eye.z == std::sqrt(2.0) / 2.0, boost::test_tools::tolerance(1e-9));
+}
+
 BOOST_AUTO_TEST_CASE(parses_real_world_obj_with_comments_blanks_and_slash_faces)
 {
     const FakeView view = openModelWith(
