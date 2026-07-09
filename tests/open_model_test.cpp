@@ -1,5 +1,6 @@
 #include <boost/test/unit_test.hpp>
 
+#include <cmath>
 #include <string>
 #include <utility>
 
@@ -107,6 +108,17 @@ BOOST_FIXTURE_TEST_CASE(opening_a_model_frames_it, OpenedTriangleModel)
     BOOST_TEST(view.shownCamera.target.x == 0.5);
     BOOST_TEST(view.shownCamera.target.y == 0.5);
     BOOST_TEST(view.shownCamera.target.z == 0.0);
+}
+
+BOOST_FIXTURE_TEST_CASE(framing_places_the_camera_back_from_the_target, OpenedTriangleModel)
+{
+    BOOST_TEST(view.shownCamera.up.x == 0.0);
+    BOOST_TEST(view.shownCamera.up.y == 1.0);
+    BOOST_TEST(view.shownCamera.up.z == 0.0);
+
+    BOOST_TEST(view.shownCamera.eye.x == 0.5);
+    BOOST_TEST(view.shownCamera.eye.y == 0.5);
+    BOOST_TEST(view.shownCamera.eye.z == std::sqrt(2.0), boost::test_tools::tolerance(1e-9));
 }
 
 BOOST_AUTO_TEST_CASE(parses_real_world_obj_with_comments_blanks_and_slash_faces)
