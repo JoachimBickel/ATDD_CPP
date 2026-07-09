@@ -17,7 +17,7 @@ inline viewer::ports::CameraState frameModel(const viewer::geometry::Mesh& mesh)
 
     viewer::ports::CameraState camera;
     camera.target = center;
-    camera.eye = viewer::geometry::Vec3{center.x, center.y, center.z + distance};
+    camera.eye = center + viewer::geometry::Vec3{0.0, 0.0, distance};
     camera.up = viewer::geometry::Vec3{0.0, 1.0, 0.0};
     return camera;
 }
