@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cmath>
-
 #include <viewer/analysis/BoundingBox.h>
 #include <viewer/geometry/Mesh.h>
 #include <viewer/geometry/Vec3.h>
@@ -15,15 +13,11 @@ inline viewer::ports::CameraState frameModel(const viewer::geometry::Mesh& mesh)
 {
     const viewer::geometry::BoundingBox bounds = viewer::analysis::boundingBox(mesh);
     const viewer::geometry::Vec3 center = bounds.center();
-
-    const double dx = bounds.max.x - bounds.min.x;
-    const double dy = bounds.max.y - bounds.min.y;
-    const double dz = bounds.max.z - bounds.min.z;
-    const double diagonal = std::sqrt(dx * dx + dy * dy + dz * dz);
+    const double distance = bounds.diagonal();
 
     viewer::ports::CameraState camera;
     camera.target = center;
-    camera.eye = viewer::geometry::Vec3{center.x, center.y, center.z + diagonal};
+    camera.eye = viewer::geometry::Vec3{center.x, center.y, center.z + distance};
     camera.up = viewer::geometry::Vec3{0.0, 1.0, 0.0};
     return camera;
 }
