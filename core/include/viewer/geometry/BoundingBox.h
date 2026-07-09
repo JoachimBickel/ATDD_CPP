@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include <viewer/geometry/Vec3.h>
 
 namespace viewer::geometry {
@@ -15,6 +17,14 @@ struct BoundingBox {
             (min.x + max.x) / 2.0,
             (min.y + max.y) / 2.0,
             (min.z + max.z) / 2.0};
+    }
+
+    double diagonal() const
+    {
+        const double dx = max.x - min.x;
+        const double dy = max.y - min.y;
+        const double dz = max.z - min.z;
+        return std::sqrt(dx * dx + dy * dy + dz * dz);
     }
 };
 
