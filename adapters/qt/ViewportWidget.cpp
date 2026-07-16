@@ -1,10 +1,13 @@
 #include "ViewportWidget.h"
 
 #include <cmath>
+#include <utility>
 #include <vector>
 
 #include <QMatrix4x4>
+#include <QMouseEvent>
 #include <QVector3D>
+#include <QWheelEvent>
 
 #include <viewer/geometry/Vec3.h>
 
@@ -66,6 +69,43 @@ void ViewportWidget::setCamera(const viewer::ports::CameraState& camera)
 {
     camera_ = camera;
     update();
+}
+
+void ViewportWidget::setOrbitHandler(std::function<void(double)> handler)
+{
+    orbitHandler_ = std::move(handler);
+}
+
+void ViewportWidget::setZoomHandler(std::function<void(double)> handler)
+{
+    zoomHandler_ = std::move(handler);
+}
+
+void ViewportWidget::mousePressEvent(QMouseEvent* event)
+{
+    lastMousePos_ = event->pos();
+}
+
+void ViewportWidget::mouseMoveEvent(QMouseEvent* event)
+{
+    const QPoint delta = event->pos() - lastMousePos_;
+    lastMousePos_ = event->pos();
+
+    if ((event->buttons() & Qt::LeftButton) && orbitHandler_) {
+        // Translation only: pixels -> radians; the camera logic lives in the core.
+        // Negative: dragging right turns the model's right side away from you.
+        constexpr double radiansPerPixel = -0.005;
+        orbitHandler_(delta.x() * radiansPerPixel);
+    }
+}
+
+void ViewportWidget::wheelEvent(QWheelEvent* event)
+{
+    if (zoomHandler_) {
+        // One 15-degree wheel notch (angleDelta 120) scales the distance by 0.9.
+        const double notches = event->angleDelta().y() / 120.0;
+        zoomHandler_(std::pow(0.9, notches));
+    }
 }
 
 void ViewportWidget::initializeGL()
@@ -143,7 +183,8 @@ void ViewportWidget::paintGL()
     // The adapter's one piece of camera work: turn the core's CameraState into
     // matrices using the framework's own, well-tested functions.
     const float distance = (eye - target).length();
-    const float aspect = height() > 0 ? float(width()) / float(height()) : 1.0f;
+    const float aspect =
+        height() > 0 ? static_cast<float>(width()) / static_cast<float>(height()) : 1.0f;
 
     QMatrix4x4 view;
     view.lookAt(eye, target, up);

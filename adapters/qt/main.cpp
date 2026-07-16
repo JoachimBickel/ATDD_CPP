@@ -6,6 +6,7 @@
 #include "FileModelSource.h"
 #include "MainWindow.h"
 #include "QtView.h"
+#include "ViewportWidget.h"
 
 int main(int argc, char* argv[])
 {
@@ -25,6 +26,8 @@ int main(int argc, char* argv[])
     viewer::app::ViewerService service{source, view};
 
     window.setOpenHandler([&service](const std::string& path) { service.openModel(path); });
+    window.viewport().setOrbitHandler([&service](double yaw) { service.orbit(yaw); });
+    window.viewport().setZoomHandler([&service](double factor) { service.zoom(factor); });
 
     window.resize(1024, 720);
     window.show();
