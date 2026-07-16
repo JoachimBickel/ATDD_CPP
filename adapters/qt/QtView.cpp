@@ -10,17 +10,17 @@ QtView::QtView(ViewportWidget& viewport, InfoPanel& infoPanel)
 {
 }
 
-void QtView::showModel(const viewer::geometry::Mesh& mesh)
+void QtView::showModel(const geometry::Mesh& mesh)
 {
     viewport_.setMesh(mesh);
 }
 
-void QtView::showModelInfo(const viewer::ports::ModelInfo& info)
+void QtView::showModelInfo(const ports::ModelInfo& info)
 {
     infoPanel_.showInfo(info);
 }
 
-void QtView::showCamera(const viewer::ports::CameraState& camera)
+void QtView::showCamera(const ports::CameraState& camera)
 {
     viewport_.setCamera(camera);
 }

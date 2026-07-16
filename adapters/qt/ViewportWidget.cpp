@@ -40,9 +40,9 @@ const char* kFragmentShader = R"(
     }
 )";
 
-QVector3D toQt(const viewer::geometry::Vec3& v)
+QVector3D toQt(const geometry::Vec3& v)
 {
-    return QVector3D(static_cast<float>(v.x), static_cast<float>(v.y), static_cast<float>(v.z));
+    return {static_cast<float>(v.x), static_cast<float>(v.y), static_cast<float>(v.z)};
 }
 
 }  // namespace
@@ -58,14 +58,14 @@ ViewportWidget::~ViewportWidget()
     doneCurrent();
 }
 
-void ViewportWidget::setMesh(const viewer::geometry::Mesh& mesh)
+void ViewportWidget::setMesh(const geometry::Mesh& mesh)
 {
     mesh_ = mesh;
     meshDirty_ = true;
     update();
 }
 
-void ViewportWidget::setCamera(const viewer::ports::CameraState& camera)
+void ViewportWidget::setCamera(const ports::CameraState& camera)
 {
     camera_ = camera;
     update();

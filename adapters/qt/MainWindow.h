@@ -10,7 +10,7 @@ namespace viewer::qt {
 class InfoPanel;
 class ViewportWidget;
 
-// The application shell: viewport in the centre, info panel docked right,
+// The application shell: viewport in the center, info panel docked right,
 // File -> Open. Forwards the chosen path to the open handler wired in main().
 class MainWindow : public QMainWindow {
     Q_OBJECT

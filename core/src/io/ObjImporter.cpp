@@ -11,9 +11,9 @@
 namespace viewer::io {
 namespace {
 
-viewer::geometry::Vec3 parseVertex(std::istringstream& lineStream)
+geometry::Vec3 parseVertex(std::istringstream& lineStream)
 {
-    viewer::geometry::Vec3 vertex;
+    geometry::Vec3 vertex;
     lineStream >> vertex.x >> vertex.y >> vertex.z;
     return vertex;
 }
@@ -27,7 +27,7 @@ std::vector<std::size_t> parseFaceCorners(std::istringstream& lineStream)
     while (lineStream >> token) {
         const std::size_t slash = token.find('/');
         const std::string vertexRef =
-            (slash == std::string::npos) ? token : token.substr(0, slash);
+            slash == std::string::npos ? token : token.substr(0, slash);
         // OBJ indices are 1-based; the mesh stores them 0-based.
         corners.push_back(static_cast<std::size_t>(std::stoul(vertexRef)) - 1);
     }
@@ -36,9 +36,12 @@ std::vector<std::size_t> parseFaceCorners(std::istringstream& lineStream)
 
 }  // namespace
 
-viewer::geometry::Mesh ObjImporter::parse(const std::string& text) const
+// Deliberately an instance method (not static): parse becomes a virtual on a
+// MeshImporter port once more formats (e.g. STL) arrive.
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
+geometry::Mesh ObjImporter::parse(const std::string& text) const
 {
-    viewer::geometry::Mesh mesh;
+    geometry::Mesh mesh;
 
     std::istringstream stream(text);
     std::string line;

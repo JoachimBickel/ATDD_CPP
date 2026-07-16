@@ -9,9 +9,9 @@ namespace viewer::analysis {
 
 // Axis-aligned bounding box of a mesh's vertices. An empty mesh yields a
 // zero-sized box at the origin.
-inline viewer::geometry::BoundingBox boundingBox(const viewer::geometry::Mesh& mesh)
+inline geometry::BoundingBox boundingBox(const geometry::Mesh& mesh)
 {
-    viewer::geometry::BoundingBox box;
+    geometry::BoundingBox box;
 
     const auto& vertices = mesh.vertices();
     if (vertices.empty()) {

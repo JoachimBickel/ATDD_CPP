@@ -1,4 +1,4 @@
-# Unit cube centred at the origin — sample model for trying the viewer.
+# Unit cube centered at the origin — sample model for trying the viewer.
 v -0.5 -0.5 -0.5
 v  0.5 -0.5 -0.5
 v  0.5  0.5 -0.5

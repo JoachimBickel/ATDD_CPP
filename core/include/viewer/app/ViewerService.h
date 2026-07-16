@@ -18,18 +18,18 @@ namespace viewer::app {
 // current camera, framed on open and mutated by interaction commands.
 class ViewerService {
 public:
-    ViewerService(viewer::ports::ModelSource& source, viewer::ports::View& view);
+    ViewerService(ports::ModelSource& source, ports::View& view);
 
     void openModel(const std::string& path);
     void zoom(double factor);
     void orbit(double yaw);
 
 private:
-    viewer::ports::ModelSource& source_;
-    viewer::ports::View& view_;
-    viewer::io::ObjImporter importer_;
-    viewer::geometry::Mesh model_;
-    viewer::ports::CameraState camera_;
+    ports::ModelSource& source_;
+    ports::View& view_;
+    io::ObjImporter importer_;
+    geometry::Mesh model_;
+    ports::CameraState camera_;
 };
 
 }  // namespace viewer::app

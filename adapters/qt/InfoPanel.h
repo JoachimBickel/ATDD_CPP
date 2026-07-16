@@ -14,7 +14,7 @@ class InfoPanel : public QWidget {
 public:
     explicit InfoPanel(QWidget* parent = nullptr);
 
-    void showInfo(const viewer::ports::ModelInfo& info);
+    void showInfo(const ports::ModelInfo& info);
 
 private:
     QLabel* vertices_;

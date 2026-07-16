@@ -11,7 +11,7 @@ namespace viewer::ports {
 class View {
 public:
     virtual ~View() = default;
-    virtual void showModel(const viewer::geometry::Mesh& mesh) = 0;
+    virtual void showModel(const geometry::Mesh& mesh) = 0;
     virtual void showModelInfo(const ModelInfo& info) = 0;
     virtual void showCamera(const CameraState& camera) = 0;
 };

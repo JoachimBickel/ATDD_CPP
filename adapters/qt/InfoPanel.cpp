@@ -16,7 +16,7 @@ InfoPanel::InfoPanel(QWidget* parent)
     layout->addRow(tr("Size:"), boundsSize_);
 }
 
-void InfoPanel::showInfo(const viewer::ports::ModelInfo& info)
+void InfoPanel::showInfo(const ports::ModelInfo& info)
 {
     vertices_->setText(QString::number(info.vertexCount));
     triangles_->setText(QString::number(info.triangleCount));

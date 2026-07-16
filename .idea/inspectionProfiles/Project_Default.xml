@@ -1,0 +1,17 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <!--
+      Inspections disabled deliberately for this project:
+      - CppUnusedIncludeDirective: flags any include whose symbols are also
+        reachable transitively, i.e. it measures redundancy on this toolchain,
+        not unusedness. This project includes what it uses (portability to
+        GCC/Linux), so the inspection only produces false positives here.
+      - CppMemberFunctionMayBeStatic: fights the design; e.g. ObjImporter::parse
+        stays an instance method because it becomes a virtual on a MeshImporter
+        port once more formats arrive.
+    -->
+    <inspection_tool class="CppUnusedIncludeDirective" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="CppMemberFunctionMayBeStatic" enabled="false" level="INFORMATION" enabled_by_default="false" />
+  </profile>
+</component>
