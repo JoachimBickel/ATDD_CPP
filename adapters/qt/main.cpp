@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QSurfaceFormat>
 
 #include <viewer/app/ViewerService.h>
 
@@ -8,6 +9,14 @@
 
 int main(int argc, char* argv[])
 {
+    // The viewport's shaders need a modern context; request it before any
+    // window (and thus GL context) is created.
+    QSurfaceFormat format;
+    format.setVersion(3, 3);
+    format.setProfile(QSurfaceFormat::CoreProfile);
+    format.setDepthBufferSize(24);
+    QSurfaceFormat::setDefaultFormat(format);
+
     QApplication app(argc, argv);
 
     viewer::qt::MainWindow window;
