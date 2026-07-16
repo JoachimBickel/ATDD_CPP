@@ -1,0 +1,23 @@
+# EditorConfig (https://editorconfig.org) — a standard, editor-agnostic way to
+# keep basic formatting consistent. Honored natively by CLion, Visual Studio,
+# VS Code, vim, and most other editors. Line-ending policy matches .gitattributes.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# Windows batch scripts require CRLF (mirrors .gitattributes)
+[*.{bat,cmd}]
+end_of_line = crlf
+
+# In Markdown a trailing double-space is a hard line break — don't strip it
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{yml,yaml,json}]
+indent_size = 2
