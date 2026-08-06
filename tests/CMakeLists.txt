@@ -5,6 +5,7 @@ find_package(Boost REQUIRED)
 
 add_executable(viewer_tests
     test_main.cpp
+    camera_interaction_test.cpp
     open_model_test.cpp
 )
 
