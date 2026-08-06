@@ -7,18 +7,18 @@
 
 namespace viewer::app {
 
-// Positions the camera to frame a model: it targets the bounding-box centre and
+// Positions the camera to frame a model: it targets the bounding-box center and
 // sits back along +Z by the box diagonal (a simple, fov-independent fit), Y up.
-inline viewer::ports::CameraState frameModel(const viewer::geometry::Mesh& mesh)
+inline ports::CameraState frameModel(const geometry::Mesh& mesh)
 {
-    const viewer::geometry::BoundingBox bounds = viewer::analysis::boundingBox(mesh);
-    const viewer::geometry::Vec3 center = bounds.center();
+    const geometry::BoundingBox bounds = analysis::boundingBox(mesh);
+    const geometry::Vec3 center = bounds.center();
     const double distance = bounds.diagonal();
 
-    viewer::ports::CameraState camera;
+    ports::CameraState camera;
     camera.target = center;
-    camera.eye = center + viewer::geometry::Vec3{0.0, 0.0, distance};
-    camera.up = viewer::geometry::Vec3{0.0, 1.0, 0.0};
+    camera.eye = center + geometry::Vec3{0.0, 0.0, distance};
+    camera.up = geometry::Vec3{0.0, 1.0, 0.0};
     return camera;
 }
 

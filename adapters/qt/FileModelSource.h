@@ -7,7 +7,7 @@
 namespace viewer::qt {
 
 // Filesystem adapter for the ModelSource port: reads model files from disk.
-class FileModelSource : public viewer::ports::ModelSource {
+class FileModelSource : public ports::ModelSource {
 public:
     std::string read(const std::string& path) override;
 };

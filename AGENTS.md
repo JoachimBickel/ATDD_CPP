@@ -18,7 +18,7 @@ Keep all code, build configuration, and tooling portable across these platforms.
 
 ## Architecture
 
-**Hexagonal (ports & adapters).** A pure, Qt-free **core** sits at the centre; the UI is an **adapter** plugged into ports the core defines. Dependencies point **inward** (`adapters → core`); the core depends on nothing external.
+**Hexagonal (ports & adapters).** A pure, Qt-free **core** sits at the center; the UI is an **adapter** plugged into ports the core defines. Dependencies point **inward** (`adapters → core`); the core depends on nothing external.
 
 ```
 core/                      ← pure C++, no Qt; fully covered by Boost.Test

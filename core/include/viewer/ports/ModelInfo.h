@@ -11,7 +11,7 @@ namespace viewer::ports {
 struct ModelInfo {
     std::size_t vertexCount = 0;
     std::size_t triangleCount = 0;
-    viewer::geometry::BoundingBox bounds;
+    geometry::BoundingBox bounds;
 };
 
 }  // namespace viewer::ports

@@ -25,8 +25,8 @@ public:
     explicit ViewportWidget(QWidget* parent = nullptr);
     ~ViewportWidget() override;
 
-    void setMesh(const viewer::geometry::Mesh& mesh);
-    void setCamera(const viewer::ports::CameraState& camera);
+    void setMesh(const geometry::Mesh& mesh);
+    void setCamera(const ports::CameraState& camera);
 
     void setOrbitHandler(std::function<void(double)> handler);
     void setZoomHandler(std::function<void(double)> handler);
@@ -41,8 +41,8 @@ protected:
 private:
     void uploadMesh();
 
-    viewer::geometry::Mesh mesh_;
-    viewer::ports::CameraState camera_;
+    geometry::Mesh mesh_;
+    ports::CameraState camera_;
 
     QOpenGLShaderProgram program_;
     QOpenGLBuffer vertexBuffer_{QOpenGLBuffer::VertexBuffer};

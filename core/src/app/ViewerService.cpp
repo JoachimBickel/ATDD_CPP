@@ -11,7 +11,7 @@
 
 namespace viewer::app {
 
-ViewerService::ViewerService(viewer::ports::ModelSource& source, viewer::ports::View& view)
+ViewerService::ViewerService(ports::ModelSource& source, ports::View& view)
     : source_(source), view_(view)
 {
 }
@@ -28,13 +28,13 @@ void ViewerService::openModel(const std::string& path)
     view_.showCamera(camera_);
 }
 
-void ViewerService::zoom(double factor)
+void ViewerService::zoom(const double factor)
 {
     camera_ = zoomCamera(camera_, factor);
     view_.showCamera(camera_);
 }
 
-void ViewerService::orbit(double yaw)
+void ViewerService::orbit(const double yaw)
 {
     camera_ = orbitCamera(camera_, yaw);
     view_.showCamera(camera_);

@@ -20,11 +20,11 @@ public:
     void addVertex(const Vec3& vertex) { vertices_.push_back(vertex); }
     void addTriangle(const Triangle& triangle) { triangles_.push_back(triangle); }
 
-    std::size_t vertexCount() const { return vertices_.size(); }
-    std::size_t triangleCount() const { return triangles_.size(); }
+    [[nodiscard]] std::size_t vertexCount() const { return vertices_.size(); }
+    [[nodiscard]] std::size_t triangleCount() const { return triangles_.size(); }
 
-    const std::vector<Vec3>& vertices() const { return vertices_; }
-    const std::vector<Triangle>& triangles() const { return triangles_; }
+    [[nodiscard]] const std::vector<Vec3>& vertices() const { return vertices_; }
+    [[nodiscard]] const std::vector<Triangle>& triangles() const { return triangles_; }
 
 private:
     std::vector<Vec3> vertices_;

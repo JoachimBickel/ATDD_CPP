@@ -17,7 +17,9 @@ compile_commands.json
 # IDE / editor
 .vs/
 .vscode/
-.idea/
+# .idea is per-machine state, except the shared inspection profile
+.idea/*
+!.idea/inspectionProfiles/
 *.user
 *.suo
 *.sln.docstates

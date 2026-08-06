@@ -9,19 +9,18 @@ namespace viewer::app {
 
 // Rotates the eye around the target about the world-up (Y) axis by yaw radians
 // (a turntable orbit). Target and up are unchanged.
-inline viewer::ports::CameraState orbitCamera(const viewer::ports::CameraState& camera,
-                                              double yaw)
+inline ports::CameraState orbitCamera(const ports::CameraState& camera, const double yaw)
 {
-    const viewer::geometry::Vec3 offset = camera.eye - camera.target;
+    const geometry::Vec3 offset = camera.eye - camera.target;
     const double cosYaw = std::cos(yaw);
     const double sinYaw = std::sin(yaw);
 
-    const viewer::geometry::Vec3 rotated{
+    const geometry::Vec3 rotated{
         offset.x * cosYaw + offset.z * sinYaw,
         offset.y,
         -offset.x * sinYaw + offset.z * cosYaw};
 
-    viewer::ports::CameraState orbited = camera;
+    ports::CameraState orbited = camera;
     orbited.eye = camera.target + rotated;
     return orbited;
 }

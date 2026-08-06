@@ -10,7 +10,7 @@ namespace viewer::io {
 // text, so it is fully testable without touching the filesystem.
 class ObjImporter {
 public:
-    viewer::geometry::Mesh parse(const std::string& text) const;
+    [[nodiscard]] geometry::Mesh parse(const std::string& text) const;
 };
 
 }  // namespace viewer::io
