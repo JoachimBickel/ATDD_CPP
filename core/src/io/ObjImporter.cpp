@@ -50,7 +50,11 @@ geometry::Mesh ObjImporter::parse(const std::string& text) const
         std::string kind;
         lineStream >> kind;
 
-        if (kind == "v") {
+        if (kind == "o") {
+            std::string name;
+            lineStream >> name;
+            mesh.setName(name);
+        } else if (kind == "v") {
             mesh.addVertex(parseVertex(lineStream));
         } else if (kind == "f") {
             const std::vector<std::size_t> corners = parseFaceCorners(lineStream);

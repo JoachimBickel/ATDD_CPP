@@ -12,6 +12,7 @@ namespace viewer::app {
 inline ports::ModelInfo describeModel(const geometry::Mesh& mesh)
 {
     ports::ModelInfo info;
+    info.name = mesh.name();
     info.vertexCount = mesh.vertexCount();
     info.triangleCount = mesh.triangleCount();
     info.bounds = analysis::boundingBox(mesh);
