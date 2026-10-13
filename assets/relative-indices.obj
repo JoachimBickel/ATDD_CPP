@@ -1,0 +1,27 @@
+# A square pyramid written with relative (negative) vertex indices, for the
+# relative indices exercise. A negative index counts back from the vertices
+# read so far, so the same number means different vertices on different lines.
+#
+# WARNING: until relative indices are supported, opening this file produces
+# out-of-range vertex indices. Expect undefined behaviour in C++ and an
+# exception in C#.
+#
+# Resolved (1-based): base 1 3 2 and 1 4 3; sides 1 2 5, 2 3 5, 3 4 5, 4 1 5.
+
+o Pyramid
+
+# Base corners, then the base: with four vertices read, -4 is vertex 1.
+v -1 0 1
+v 1 0 1
+v 1 0 -1
+v -1 0 -1
+f -4 -2 -3
+f -4 -1 -2
+
+# The apex, then the sides: with five vertices read, -1 is the apex. The last
+# two lines mix relative and absolute indices.
+v 0 1.5 0
+f -5 -4 -1
+f -4 -3 -1
+f 3 -2 -1
+f -2 1 5

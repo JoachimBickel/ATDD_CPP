@@ -1,0 +1,24 @@
+# A deliberately broken model for the model diagnostics exercise.
+#
+# WARNING: until the viewer drops or rejects the bad face, opening this file
+# indexes past the end of the vertex list. Expect undefined behaviour in C++
+# and an exception in C#.
+#
+# Problems, in order:
+#   - vertex 6 is never referenced by any face
+#   - face 3 has zero area (vertex 5 lies on the edge from 1 to 2)
+#   - face 4 refers to vertex 9, which does not exist
+# Faces 1 and 2 are fine and form a unit square.
+
+o Broken Sample
+v 0 0 0
+v 1 0 0
+v 1 1 0
+v 0 1 0
+v 0.5 0 0
+v 3 3 3
+
+f 1 2 3
+f 1 3 4
+f 1 5 2
+f 1 3 9
