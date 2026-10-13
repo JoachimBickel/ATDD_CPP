@@ -23,13 +23,16 @@ inline geometry::Vec3 rotateAbout(
 // (positive pitch raises the eye). Up turns and tilts along with the eye, so
 // it stays at right angles to the view and the orbit can pass over the top;
 // turning about the world's vertical keeps the sideways axis level, so the
-// view never rolls. The target is unchanged.
+// view never rolls. While upside down the turn is reversed, so the model still
+// follows the mouse; exactly overhead counts as upright. The target is
+// unchanged.
 inline ports::CameraState orbitCamera(
     const ports::CameraState& camera, const double yaw, const double pitch)
 {
     const geometry::Vec3 worldUp{0.0, 1.0, 0.0};
-    geometry::Vec3 offset = rotateAbout(camera.eye - camera.target, worldUp, yaw);
-    geometry::Vec3 up = rotateAbout(camera.up, worldUp, yaw);
+    const double turn = camera.up.y < 0.0 ? -yaw : yaw;
+    geometry::Vec3 offset = rotateAbout(camera.eye - camera.target, worldUp, turn);
+    geometry::Vec3 up = rotateAbout(camera.up, worldUp, turn);
 
     const geometry::Vec3 sideways = geometry::normalized(geometry::cross(offset, up));
     offset = rotateAbout(offset, sideways, pitch);
