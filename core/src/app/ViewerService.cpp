@@ -34,9 +34,9 @@ void ViewerService::zoom(const double factor)
     view_.showCamera(camera_);
 }
 
-void ViewerService::orbit(const double yaw, const double /*pitch*/)
+void ViewerService::orbit(const double yaw, const double pitch)
 {
-    camera_ = orbitCamera(camera_, yaw);
+    camera_ = orbitCamera(camera_, yaw, pitch);
     view_.showCamera(camera_);
 }
 
