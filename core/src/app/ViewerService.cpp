@@ -24,7 +24,7 @@ void ViewerService::openModel(const std::string& path)
     camera_ = frameModel(model_);
 
     view_.showModel(model_);
-    view_.showModelInfo(describeModel(model_));
+    view_.showModelInfo(describeModel(model_, path));
     view_.showCamera(camera_);
 }
 
