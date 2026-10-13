@@ -109,4 +109,27 @@ BOOST_FIXTURE_TEST_CASE(turning_while_upside_down_still_follows_the_mouse, Opene
     BOOST_TEST(view.shownCamera.eye.z == 0.0, boost::test_tools::tolerance(1e-9));
 }
 
+BOOST_FIXTURE_TEST_CASE(turning_and_tilting_combine_in_one_orbit, OpenedTriangleModel)
+{
+    service.orbit(pi / 2.0, pi / 4.0);
+
+    // Turned a quarter to (0.5 + sqrt(2), 0.5, 0), then tilted 45 deg up.
+    BOOST_TEST(view.shownCamera.eye.x == 1.5, boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(view.shownCamera.eye.y == 1.5, boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(view.shownCamera.eye.z == 0.0, boost::test_tools::tolerance(1e-9));
+}
+
+BOOST_FIXTURE_TEST_CASE(a_full_tilt_returns_the_camera_to_where_it_started, OpenedTriangleModel)
+{
+    service.orbit(0.0, 2.0 * pi);
+
+    BOOST_TEST(view.shownCamera.eye.x == 0.5, boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(view.shownCamera.eye.y == 0.5, boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(view.shownCamera.eye.z == std::sqrt(2.0), boost::test_tools::tolerance(1e-9));
+
+    BOOST_TEST(view.shownCamera.up.x == 0.0, boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(view.shownCamera.up.y == 1.0, boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(view.shownCamera.up.z == 0.0, boost::test_tools::tolerance(1e-9));
+}
+
 BOOST_AUTO_TEST_SUITE_END()
