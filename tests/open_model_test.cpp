@@ -116,4 +116,19 @@ BOOST_AUTO_TEST_CASE(forward_and_backward_slashes_give_the_same_file_name)
     BOOST_TEST(openModelWith(unnamedTriangle, "C:\\models\\teapot.obj").shownInfo.name == "teapot");
 }
 
+BOOST_AUTO_TEST_CASE(the_first_of_several_object_names_is_used)
+{
+    const FakeView view = openModelWith(
+        "o body\n"
+        "v 0 0 0\n"
+        "v 1 0 0\n"
+        "v 0 1 0\n"
+        "f 1 2 3\n"
+        "o lid\n"
+        "v 0 0 1\n"
+        "f 1 2 4\n");
+
+    BOOST_TEST(view.shownInfo.name == "body");
+}
+
 BOOST_AUTO_TEST_SUITE_END()
