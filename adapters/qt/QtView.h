@@ -4,22 +4,21 @@
 
 namespace viewer::qt {
 
-class InfoPanel;
-class ViewportWidget;
+class MainWindow;
 
 // Qt implementation of the View outbound port: routes what the core wants
-// shown to the viewport and the info panel. Translation only — no logic.
+// shown to the viewport, the info panel, and the window title. Translation
+// only — no logic.
 class QtView : public ports::View {
 public:
-    QtView(ViewportWidget& viewport, InfoPanel& infoPanel);
+    explicit QtView(MainWindow& window);
 
     void showModel(const geometry::Mesh& mesh) override;
     void showModelInfo(const ports::ModelInfo& info) override;
     void showCamera(const ports::CameraState& camera) override;
 
 private:
-    ViewportWidget& viewport_;
-    InfoPanel& infoPanel_;
+    MainWindow& window_;
 };
 
 }  // namespace viewer::qt

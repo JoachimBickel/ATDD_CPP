@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 
     viewer::qt::MainWindow window;
     viewer::qt::FileModelSource source;
-    viewer::qt::QtView view{window.viewport(), window.infoPanel()};
+    viewer::qt::QtView view{window};
     viewer::app::ViewerService service{source, view};
 
     window.setOpenHandler([&service](const std::string& path) { service.openModel(path); });
