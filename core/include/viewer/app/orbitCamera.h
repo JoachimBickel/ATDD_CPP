@@ -20,7 +20,9 @@ inline geometry::Vec3 rotateAbout(
 
 // Turntable orbit around the target: yaw turns the eye about the world's
 // vertical axis, then pitch tilts it about the camera's sideways axis
-// (positive pitch raises the eye). The target is unchanged.
+// (positive pitch raises the eye). Up tilts along with the eye, so it stays at
+// right angles to the view and the orbit can pass over the top. The target is
+// unchanged.
 inline ports::CameraState orbitCamera(
     const ports::CameraState& camera, const double yaw, const double pitch)
 {
@@ -32,6 +34,7 @@ inline ports::CameraState orbitCamera(
 
     ports::CameraState orbited = camera;
     orbited.eye = camera.target + offset;
+    orbited.up = rotateAbout(camera.up, sideways, pitch);
     return orbited;
 }
 
