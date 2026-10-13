@@ -28,7 +28,7 @@ public:
     void setMesh(const geometry::Mesh& mesh);
     void setCamera(const ports::CameraState& camera);
 
-    void setOrbitHandler(std::function<void(double)> handler);
+    void setOrbitHandler(std::function<void(double, double)> handler);
     void setZoomHandler(std::function<void(double)> handler);
 
 protected:
@@ -51,7 +51,7 @@ private:
     bool meshDirty_ = false;
 
     QPoint lastMousePos_;
-    std::function<void(double)> orbitHandler_;
+    std::function<void(double, double)> orbitHandler_;
     std::function<void(double)> zoomHandler_;
 };
 
