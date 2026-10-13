@@ -22,11 +22,12 @@ int main(int argc, char* argv[])
 
     viewer::qt::MainWindow window;
     viewer::qt::FileModelSource source;
-    viewer::qt::QtView view{window.viewport(), window.infoPanel()};
+    viewer::qt::QtView view{window};
     viewer::app::ViewerService service{source, view};
 
     window.setOpenHandler([&service](const std::string& path) { service.openModel(path); });
-    window.viewport().setOrbitHandler([&service](const double yaw) { service.orbit(yaw); });
+    window.viewport().setOrbitHandler(
+        [&service](const double yaw, const double pitch) { service.orbit(yaw, pitch); });
     window.viewport().setZoomHandler([&service](const double factor) { service.zoom(factor); });
 
     window.resize(1024, 720);

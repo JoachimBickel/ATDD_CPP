@@ -71,7 +71,7 @@ void ViewportWidget::setCamera(const ports::CameraState& camera)
     update();
 }
 
-void ViewportWidget::setOrbitHandler(std::function<void(double)> handler)
+void ViewportWidget::setOrbitHandler(std::function<void(double, double)> handler)
 {
     orbitHandler_ = std::move(handler);
 }
@@ -93,9 +93,11 @@ void ViewportWidget::mouseMoveEvent(QMouseEvent* event)
 
     if ((event->buttons() & Qt::LeftButton) && orbitHandler_) {
         // Translation only: pixels -> radians; the camera logic lives in the core.
-        // Negative: dragging right turns the model's right side away from you.
-        constexpr double radiansPerPixel = -0.005;
-        orbitHandler_(delta.x() * radiansPerPixel);
+        // The model follows the mouse: dragging right turns its right side away
+        // from you (negative yaw), dragging down tips its top towards you
+        // (positive pitch, as screen Y grows downward).
+        constexpr double radiansPerPixel = 0.005;
+        orbitHandler_(-delta.x() * radiansPerPixel, delta.y() * radiansPerPixel);
     }
 }
 

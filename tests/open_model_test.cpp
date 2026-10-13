@@ -1,6 +1,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <cmath>
+#include <string>
 
 #include <viewer/geometry/Mesh.h>
 #include <viewer/ports/CameraState.h>
@@ -75,6 +76,83 @@ BOOST_AUTO_TEST_CASE(parses_real_world_obj_with_comments_blanks_and_slash_faces)
     BOOST_TEST(triangle.v0 == 0u);
     BOOST_TEST(triangle.v1 == 1u);
     BOOST_TEST(triangle.v2 == 2u);
+}
+
+BOOST_AUTO_TEST_CASE(opening_a_model_shows_its_object_name)
+{
+    const FakeView view = openModelWith(
+        "o cube\n"
+        "v 0 0 0\n"
+        "v 1 0 0\n"
+        "v 0 1 0\n"
+        "f 1 2 3\n");
+
+    BOOST_TEST(view.shownInfo.name == "cube");
+}
+
+BOOST_AUTO_TEST_CASE(a_model_without_an_object_name_is_named_after_its_file)
+{
+    const FakeView view = openModelWith(
+        "v 0 0 0\n"
+        "v 1 0 0\n"
+        "v 0 1 0\n"
+        "f 1 2 3\n",
+        "models/teapot.obj");
+
+    BOOST_TEST(view.shownInfo.name == "teapot");
+}
+
+BOOST_AUTO_TEST_CASE(forward_and_backward_slashes_give_the_same_file_name)
+{
+    const std::string unnamedTriangle =
+        "v 0 0 0\n"
+        "v 1 0 0\n"
+        "v 0 1 0\n"
+        "f 1 2 3\n";
+
+    // On Linux, std::filesystem does not treat a backslash as a separator, so
+    // the rule has to live in the core rather than in a library call.
+    BOOST_TEST(openModelWith(unnamedTriangle, "C:/models/teapot.obj").shownInfo.name == "teapot");
+    BOOST_TEST(openModelWith(unnamedTriangle, "C:\\models\\teapot.obj").shownInfo.name == "teapot");
+}
+
+BOOST_AUTO_TEST_CASE(the_first_of_several_object_names_is_used)
+{
+    const FakeView view = openModelWith(
+        "o body\n"
+        "v 0 0 0\n"
+        "v 1 0 0\n"
+        "v 0 1 0\n"
+        "f 1 2 3\n"
+        "o lid\n"
+        "v 0 0 1\n"
+        "f 1 2 4\n");
+
+    BOOST_TEST(view.shownInfo.name == "body");
+}
+
+BOOST_AUTO_TEST_CASE(an_object_name_may_contain_spaces)
+{
+    const FakeView view = openModelWith(
+        "o Coffee Pot\n"
+        "v 0 0 0\n"
+        "v 1 0 0\n"
+        "v 0 1 0\n"
+        "f 1 2 3\n");
+
+    BOOST_TEST(view.shownInfo.name == "Coffee Pot");
+}
+
+BOOST_AUTO_TEST_CASE(an_object_name_from_a_crlf_file_has_no_trailing_carriage_return)
+{
+    const FakeView view = openModelWith(
+        "o Coffee Pot\r\n"
+        "v 0 0 0\r\n"
+        "v 1 0 0\r\n"
+        "v 0 1 0\r\n"
+        "f 1 2 3\r\n");
+
+    BOOST_TEST(view.shownInfo.name == "Coffee Pot");
 }
 
 BOOST_AUTO_TEST_SUITE_END()

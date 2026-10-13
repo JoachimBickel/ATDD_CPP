@@ -55,12 +55,12 @@ public:
 
 // Arrange + act: open a model from the given OBJ text, returning what the view
 // was shown. For one-off content tests that only inspect the view.
-inline FakeView openModelWith(std::string objText)
+inline FakeView openModelWith(std::string objText, const std::string& path = "model.obj")
 {
     FakeModelSource source{std::move(objText)};
     FakeView view;
     viewer::app::ViewerService service{source, view};
-    service.openModel("model.obj");
+    service.openModel(path);
     return view;
 }
 
