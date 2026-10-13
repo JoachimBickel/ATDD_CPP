@@ -51,9 +51,12 @@ geometry::Mesh ObjImporter::parse(const std::string& text) const
         lineStream >> kind;
 
         if (kind == "o") {
-            std::string name;
-            lineStream >> name;
-            mesh.setName(name);
+            // A file may hold several objects; the first one names the model.
+            if (mesh.name().empty()) {
+                std::string name;
+                lineStream >> name;
+                mesh.setName(name);
+            }
         } else if (kind == "v") {
             mesh.addVertex(parseVertex(lineStream));
         } else if (kind == "f") {
