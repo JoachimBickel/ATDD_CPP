@@ -131,4 +131,28 @@ BOOST_AUTO_TEST_CASE(the_first_of_several_object_names_is_used)
     BOOST_TEST(view.shownInfo.name == "body");
 }
 
+BOOST_AUTO_TEST_CASE(an_object_name_may_contain_spaces)
+{
+    const FakeView view = openModelWith(
+        "o Coffee Pot\n"
+        "v 0 0 0\n"
+        "v 1 0 0\n"
+        "v 0 1 0\n"
+        "f 1 2 3\n");
+
+    BOOST_TEST(view.shownInfo.name == "Coffee Pot");
+}
+
+BOOST_AUTO_TEST_CASE(an_object_name_from_a_crlf_file_has_no_trailing_carriage_return)
+{
+    const FakeView view = openModelWith(
+        "o Coffee Pot\r\n"
+        "v 0 0 0\r\n"
+        "v 1 0 0\r\n"
+        "v 0 1 0\r\n"
+        "f 1 2 3\r\n");
+
+    BOOST_TEST(view.shownInfo.name == "Coffee Pot");
+}
+
 BOOST_AUTO_TEST_SUITE_END()
