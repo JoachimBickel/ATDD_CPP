@@ -10,11 +10,11 @@
 
 int main(int argc, char* argv[])
 {
-    // The viewport's shaders need a modern context; request it before any
-    // window (and thus GL context) is created.
+    // Only the depth buffer is requested explicitly, before any window (and
+    // thus GL context) is created. The viewport's GLSL 3.30 shaders compile in
+    // the driver's default context, whereas pinning a 3.3 core profile made
+    // context creation fail with EGL_BAD_MATCH on NVIDIA under Wayland.
     QSurfaceFormat format;
-    format.setVersion(3, 3);
-    format.setProfile(QSurfaceFormat::CoreProfile);
     format.setDepthBufferSize(24);
     QSurfaceFormat::setDefaultFormat(format);
 
