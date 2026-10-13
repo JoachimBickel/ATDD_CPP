@@ -61,4 +61,21 @@ BOOST_FIXTURE_TEST_CASE(pitching_up_raises_the_eye_and_keeps_its_distance, Opene
     BOOST_TEST(view.shownCamera.target.z == 0.0);
 }
 
+BOOST_FIXTURE_TEST_CASE(orbiting_continues_over_the_top_and_turns_the_view_upside_down, OpenedTriangleModel)
+{
+    // Two quarter tilts pass straight over the target, where a fixed up
+    // direction would leave the camera's sideways direction undefined.
+    service.orbit(0.0, pi / 2.0);
+    service.orbit(0.0, pi / 2.0);
+
+    // Behind the model at (0.5, 0.5, -sqrt(2)), looking back, upside down.
+    BOOST_TEST(view.shownCamera.eye.x == 0.5, boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(view.shownCamera.eye.y == 0.5, boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(view.shownCamera.eye.z == -std::sqrt(2.0), boost::test_tools::tolerance(1e-9));
+
+    BOOST_TEST(view.shownCamera.up.x == 0.0, boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(view.shownCamera.up.y == -1.0, boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(view.shownCamera.up.z == 0.0, boost::test_tools::tolerance(1e-9));
+}
+
 BOOST_AUTO_TEST_SUITE_END()
