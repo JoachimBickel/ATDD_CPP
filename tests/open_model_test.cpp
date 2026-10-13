@@ -77,4 +77,16 @@ BOOST_AUTO_TEST_CASE(parses_real_world_obj_with_comments_blanks_and_slash_faces)
     BOOST_TEST(triangle.v2 == 2u);
 }
 
+BOOST_AUTO_TEST_CASE(opening_a_model_shows_its_object_name)
+{
+    const FakeView view = openModelWith(
+        "o cube\n"
+        "v 0 0 0\n"
+        "v 1 0 0\n"
+        "v 0 1 0\n"
+        "f 1 2 3\n");
+
+    BOOST_TEST(view.shownInfo.name == "cube");
+}
+
 BOOST_AUTO_TEST_SUITE_END()
