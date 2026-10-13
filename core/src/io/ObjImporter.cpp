@@ -11,6 +11,21 @@
 namespace viewer::io {
 namespace {
 
+// The rest of the line without surrounding whitespace, so names with spaces
+// survive and a CRLF file's trailing '\r' does not.
+std::string parseRestOfLine(std::istringstream& lineStream)
+{
+    std::string rest;
+    std::getline(lineStream, rest);
+    const char* const whitespace = " \t\r";
+    const std::size_t first = rest.find_first_not_of(whitespace);
+    if (first == std::string::npos) {
+        return {};
+    }
+    const std::size_t last = rest.find_last_not_of(whitespace);
+    return rest.substr(first, last - first + 1);
+}
+
 geometry::Vec3 parseVertex(std::istringstream& lineStream)
 {
     geometry::Vec3 vertex;
@@ -53,9 +68,7 @@ geometry::Mesh ObjImporter::parse(const std::string& text) const
         if (kind == "o") {
             // A file may hold several objects; the first one names the model.
             if (mesh.name().empty()) {
-                std::string name;
-                lineStream >> name;
-                mesh.setName(name);
+                mesh.setName(parseRestOfLine(lineStream));
             }
         } else if (kind == "v") {
             mesh.addVertex(parseVertex(lineStream));
