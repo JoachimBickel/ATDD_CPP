@@ -1,6 +1,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <cmath>
+#include <string>
 
 #include <viewer/geometry/Mesh.h>
 #include <viewer/ports/CameraState.h>
@@ -99,6 +100,20 @@ BOOST_AUTO_TEST_CASE(a_model_without_an_object_name_is_named_after_its_file)
         "models/teapot.obj");
 
     BOOST_TEST(view.shownInfo.name == "teapot");
+}
+
+BOOST_AUTO_TEST_CASE(forward_and_backward_slashes_give_the_same_file_name)
+{
+    const std::string unnamedTriangle =
+        "v 0 0 0\n"
+        "v 1 0 0\n"
+        "v 0 1 0\n"
+        "f 1 2 3\n";
+
+    // On Linux, std::filesystem does not treat a backslash as a separator, so
+    // the rule has to live in the core rather than in a library call.
+    BOOST_TEST(openModelWith(unnamedTriangle, "C:/models/teapot.obj").shownInfo.name == "teapot");
+    BOOST_TEST(openModelWith(unnamedTriangle, "C:\\models\\teapot.obj").shownInfo.name == "teapot");
 }
 
 BOOST_AUTO_TEST_SUITE_END()
