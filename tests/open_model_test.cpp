@@ -89,4 +89,16 @@ BOOST_AUTO_TEST_CASE(opening_a_model_shows_its_object_name)
     BOOST_TEST(view.shownInfo.name == "cube");
 }
 
+BOOST_AUTO_TEST_CASE(a_model_without_an_object_name_is_named_after_its_file)
+{
+    const FakeView view = openModelWith(
+        "v 0 0 0\n"
+        "v 1 0 0\n"
+        "v 0 1 0\n"
+        "f 1 2 3\n",
+        "models/teapot.obj");
+
+    BOOST_TEST(view.shownInfo.name == "teapot");
+}
+
 BOOST_AUTO_TEST_SUITE_END()
