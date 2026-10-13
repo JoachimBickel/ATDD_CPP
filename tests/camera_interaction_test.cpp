@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include <viewer/app/ViewerService.h>
+#include <viewer/geometry/Vec3.h>
 #include <viewer/ports/CameraState.h>
 
 #include "support/fakes.h"
@@ -76,6 +77,23 @@ BOOST_FIXTURE_TEST_CASE(orbiting_continues_over_the_top_and_turns_the_view_upsid
     BOOST_TEST(view.shownCamera.up.x == 0.0, boost::test_tools::tolerance(1e-9));
     BOOST_TEST(view.shownCamera.up.y == -1.0, boost::test_tools::tolerance(1e-9));
     BOOST_TEST(view.shownCamera.up.z == 0.0, boost::test_tools::tolerance(1e-9));
+}
+
+BOOST_FIXTURE_TEST_CASE(turning_after_tilting_keeps_the_height_and_never_rolls, OpenedTriangleModel)
+{
+    service.orbit(0.0, pi / 4.0);
+    service.orbit(pi / 3.0, 0.0);
+
+    const viewer::geometry::Vec3 offset = view.shownCamera.eye - view.shownCamera.target;
+    const viewer::geometry::Vec3 sideways = viewer::geometry::cross(offset, view.shownCamera.up);
+
+    // Left/right turns about the world's vertical: the eye keeps its height,
+    // and the camera's sideways direction stays level, so nothing rolls.
+    BOOST_TEST(view.shownCamera.eye.y == 1.5, boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(sideways.y == 0.0, boost::test_tools::tolerance(1e-9));
+
+    // Up stays at right angles to the viewing direction.
+    BOOST_TEST(viewer::geometry::dot(view.shownCamera.up, offset) == 0.0, boost::test_tools::tolerance(1e-9));
 }
 
 BOOST_AUTO_TEST_SUITE_END()
