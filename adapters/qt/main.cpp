@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
     viewer::app::ViewerService service{source, view};
 
     window.setOpenHandler([&service](const std::string& path) { service.openModel(path); });
-    window.viewport().setOrbitHandler([&service](const double yaw) { service.orbit(yaw); });
+    window.viewport().setOrbitHandler([&service](const double yaw) { service.orbit(yaw, 0.0); });
     window.viewport().setZoomHandler([&service](const double factor) { service.zoom(factor); });
 
     window.resize(1024, 720);
