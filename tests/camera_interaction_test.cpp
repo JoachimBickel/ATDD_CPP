@@ -96,4 +96,17 @@ BOOST_FIXTURE_TEST_CASE(turning_after_tilting_keeps_the_height_and_never_rolls, 
     BOOST_TEST(viewer::geometry::dot(view.shownCamera.up, offset) == 0.0, boost::test_tools::tolerance(1e-9));
 }
 
+BOOST_FIXTURE_TEST_CASE(turning_while_upside_down_still_follows_the_mouse, OpenedTriangleModel)
+{
+    service.orbit(0.0, pi);
+    service.orbit(pi / 2.0, 0.0);
+
+    // Upside down behind the model, the same turn lands where it does from the
+    // upright front view, (0.5 + sqrt(2), 0.5, 0); unreversed it would land on
+    // the opposite side.
+    BOOST_TEST(view.shownCamera.eye.x == 0.5 + std::sqrt(2.0), boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(view.shownCamera.eye.y == 0.5, boost::test_tools::tolerance(1e-9));
+    BOOST_TEST(view.shownCamera.eye.z == 0.0, boost::test_tools::tolerance(1e-9));
+}
+
 BOOST_AUTO_TEST_SUITE_END()
